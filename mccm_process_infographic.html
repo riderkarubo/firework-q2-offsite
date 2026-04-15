@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📊 MCCM年次報告会 × Claude Code 制作プロセス</title>
+  <meta name="description" content="MCCMの年次報告会資料をClaude Codeで作るプロセスのインフォグラフィック">
+  <meta property="og:title" content="📊 MCCM年次報告会 × Claude Code 制作プロセス">
+  <meta property="og:description" content="資料格納→骨子読込→アジェンダ別深掘り→GASでSlides出力 の全プロセスを可視化">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="#">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="📊 MCCM年次報告会 × Claude Code 制作プロセス">
+  <meta name="twitter:description" content="資料格納→骨子読込→アジェンダ別深掘り→GASでSlides出力 の全プロセスを可視化">
+  <style>
+    :root {
+      --bg: #07090f;
+      --bg2: #0e1320;
+      --card: #131c2e;
+      --border: #1e2d47;
+      --blue: #3b82f6;
+      --indigo: #6366f1;
+      --violet: #8b5cf6;
+      --teal: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --green: #22c55e;
+      --text: #e2e8f0;
+      --text2: #64748b;
+      --text3: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      padding: 56px 24px 48px;
+      text-align: center;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(99,102,241,0.2) 0%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.3);
+      color: #a5b4fc;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: clamp(24px, 4vw, 44px);
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #fff 0%, #bfdbfe 40%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+    }
+
+    .header p {
+      color: var(--text3);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ─── MAIN PIPELINE ─── */
+    .pipeline {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 24px;
+    }
+
+    /* ─── PHASE ─── */
+    .phase {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 0;
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    /* vertical connector line */
+    .phase:not(:last-child) .phase-left::after {
+      content: '';
+      position: absolute;
+      left: 119px;
+      top: 80px;
+      bottom: -56px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--phase-color, var(--blue)), transparent);
+      z-index: 0;
+    }
+
+    .phase-left {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 4px;
+    }
+
+    .phase-badge {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: var(--phase-color, var(--blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 0 24px rgba(var(--phase-rgb, 59,130,246), 0.35);
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .phase-num {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--phase-color, var(--blue));
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    .phase-right {
+      padding: 0 0 56px 32px;
+    }
+
+    .phase-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .phase-desc {
+      font-size: 13px;
+      color: var(--text3);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* ─── DOCUMENT CHIPS ─── */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: var(--text3);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .chip:hover {
+      border-color: var(--phase-color, var(--blue));
+      color: var(--text);
+    }
+
+    .chip-icon { font-size: 14px; }
+
+    /* ─── AGENDA CARDS ─── */
+    .agenda-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .agenda-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .agenda-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+
+    .agenda-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--ac-color, var(--blue));
+    }
+
+    .agenda-card .ac-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--ac-color, var(--blue));
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .agenda-card .ac-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .agenda-card .ac-time {
+      font-size: 11px;
+      color: var(--text2);
+    }
+
+    .analysis-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .atag {
+      font-size: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: var(--text3);
+    }
+
+    /* ─── OUTPUT BLOCK ─── */
+    .output-block {
+      background: linear-gradient(135deg, rgba(20,184,166,0.08), rgba(99,102,241,0.08));
+      border: 1px solid rgba(20,184,166,0.25);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .output-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+
+    .output-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .output-desc {
+      font-size: 13px;
+      color: var(--text3);
+      line-height: 1.6;
+    }
+
+    .output-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .ostep {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(20,184,166,0.1);
+      border: 1px solid rgba(20,184,166,0.2);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    /* ─── HIGHLIGHT ROW ─── */
+    .highlight-row {
+      max-width: 1100px;
+      margin: 0 auto 56px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .hl {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .hl-num {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .hl-label {
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    /* ─── SUMMARY ─── */
+    .summary {
+      max-width: 1100px;
+      margin: 0 auto 64px;
+      padding: 0 24px;
+    }
+
+    .summary-box {
+      background: linear-gradient(135deg, rgba(59,130,246,0.07), rgba(139,92,246,0.07));
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .summary-left h2 {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .summary-left h2 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .summary-left p {
+      font-size: 14px;
+      color: var(--text3);
+      line-height: 1.8;
+    }
+
+    .summary-right {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sr-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+
+    .sr-icon { font-size: 20px; flex-shrink: 0; }
+    .sr-text { font-size: 13px; color: var(--text3); }
+    .sr-text strong { color: var(--text); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 720px) {
+      .phase { grid-template-columns: 1fr; }
+      .phase-left { flex-direction: row; gap: 14px; align-items: center; padding-top: 0; margin-bottom: 16px; }
+      .phase-left::after { display: none; }
+      .phase-right { padding: 0 0 40px 0; }
+      .highlight-row { grid-template-columns: 1fr; }
+      .summary-box { grid-template-columns: 1fr; }
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text2);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="tag">📊 Case Study — MCCM</div>
+  <h1>年次報告会の資料を<br>Claude Codeで作るまで</h1>
+  <p>実際の資料・データをAIに読み込ませ、<br>アジェンダごとに深掘り分析→GASでGoogleスライドへ自動出力するプロセス</p>
+</header>
+
+<!-- ═══ PIPELINE ═══ -->
+<main class="pipeline">
+
+  <!-- ── PHASE 1 ── -->
+  <div class="phase" style="--phase-color: #3b82f6; --phase-rgb: 59,130,246;">
+    <div class="phase-left">
+      <div class="phase-badge">📁</div>
+      <div class="phase-num">Phase 1</div>
+    </div>
+    <div class="phase-right">
+      <div class="phase-title">あらゆる資料をClaude Codeに格納</div>
+      <div class="phase-desc">
+        プロジェクトフォルダにすべての素材を集め、<code style="background:rgba(255,255,255,0.07);padding:2px 6px;border-radius:4px;font-size:12px;">CLAUDE.md</code> に背景・ルール・禁止事項を記述。<br>
+        AIがセッションをまたいでも文脈を忘れない「永続記憶」として機能させる。
+      </div>
+      <div class="chips">
+        <span class="chip"><span class="chip-icon">📊</span> 配信数値まとめ（CSV）</span>
+        <span class="chip"><span class="chip-icon">📈</span> 競合他社ライブ配信数値</span>
+        <span class="chip"><span class="chip-icon">🎯</span> QBR・KPI設計資料</span>
+        <span class="chip"><span class="chip-icon">📝</span> 台本・分科会資料</span>
+        <span class="chip"><span class="chip-icon">📋</span> 過去の振り返り資料</span>
+        <span class="chip"><span class="chip-icon">🏢</span> メーカー実績レポート</span>
+        <span class="chip"><span class="chip-icon">🤝</span> 協賛配信のあゆみ</span>
+        <span class="chip"><span class="chip-icon">⚙️</span> CLAUDE.md（AI指示書）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 2 ── -->
+  <div class="phase" style="--phase-color: #6366f1; --phase-rgb: 99,102,241;">
+    <div class="phase-left">
+      <div class="phase-badge">🧠</div>
+      <div class="phase-num">Phase 2</div>
+    </div>
+    <div class="phase-right">
+      <div class="phase-title">社内すり合わせ済みの企画骨子を読み込ませる</div>
+      <div class="phase-desc">
+        社内で整理した提案骨子（アジェンダ・発表時間・伝えたいメッセージ）をClaude Codeに渡し、<br>
+        全体の構成・論点・必要な分析を一緒に整理する。
+      </div>
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #a5b4fc; text-transform: uppercase; margin-bottom: 14px;">📋 年次報告会 アジェンダ構成</div>
+        <div class="agenda-grid">
+          <div class="agenda-card" style="--ac-color: #3b82f6;">
+            <div class="ac-label">A1 — 5分</div>
+            <div class="ac-title">2025年度総括<br>資産価値のご報告</div>
+            <div class="ac-time">累計視聴・協賛実績・7資産の整理</div>
+          </div>
+          <div class="agenda-card" style="--ac-color: #6366f1;">
+            <div class="ac-label">A2 — 15分</div>
+            <div class="ac-title">2026年度目標設定<br>×戦略方針提示</div>
+            <div class="ac-time">KPI設計・競合ベンチマーク・収益戦略</div>
+          </div>
+          <div class="agenda-card" style="--ac-color: #8b5cf6;">
+            <div class="ac-label">A3 — 25分</div>
+            <div class="ac-title">社員インフルエンサー<br>活用PJ（ディスカッション）</div>
+            <div class="ac-time">新施策ブレスト・PB回比較分析</div>
+          </div>
+          <div class="agenda-card" style="--ac-color: #14b8a6;">
+            <div class="ac-label">A4 — 15分</div>
+            <div class="ac-title">SoftBankパート</div>
+            <div class="ac-time">パートナー連携・新メニュー提案</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 3 ── -->
+  <div class="phase" style="--phase-color: #8b5cf6; --phase-rgb: 139,92,246;">
+    <div class="phase-left">
+      <div class="phase-badge">🔍</div>
+      <div class="phase-num">Phase 3</div>
+    </div>
+    <div class="phase-right">
+      <div class="phase-title">アジェンダごとに骨子を深掘り・分析させる</div>
+      <div class="phase-desc">
+        各アジェンダに対して「何を言いたいか → 何のデータが必要か → どう見せるか」をAIと壁打ちし、<br>
+        必要な分析をその場でClaude Codeに実行させる。
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-bottom: 16px;">
+
+        <div style="background: var(--card); border: 1px solid var(--border); border-left: 3px solid #3b82f6; border-radius: 12px; padding: 16px;">
+          <div style="font-size: 12px; font-weight: 700; color: #60a5fa; margin-bottom: 10px;">📌 A1 — 資産価値の可視化</div>
+          <div class="analysis-tags">
+            <span class="atag">累計視聴数の推移グラフ化</span>
+            <span class="atag">前年比+62%の根拠整理</span>
+            <span class="atag">7経営資産の言語化</span>
+            <span class="atag">協賛19社実績まとめ</span>
+          </div>
+        </div>
+
+        <div style="background: var(--card); border: 1px solid var(--border); border-left: 3px solid #6366f1; border-radius: 12px; padding: 16px;">
+          <div style="font-size: 12px; font-weight: 700; color: #a5b4fc; margin-bottom: 10px;">📌 A2 — KPI設計 & 競合比較</div>
+          <div class="analysis-tags">
+            <span class="atag">競合比較：なぜ低いか言語化</span>
+            <span class="atag">KPI再設計の壁打ち</span>
+            <span class="atag">競合他社数値CSVを分析</span>
+            <span class="atag">2026目標KPI策定</span>
+          </div>
+        </div>
+
+        <div style="background: var(--card); border: 1px solid var(--border); border-left: 3px solid #8b5cf6; border-radius: 12px; padding: 16px;">
+          <div style="font-size: 12px; font-weight: 700; color: #c4b5fd; margin-bottom: 10px;">📌 A3 — エンゲージメント比較</div>
+          <div class="analysis-tags">
+            <span class="atag">PB回 vs 協賛回 比較</span>
+            <span class="atag">協賛回 vs レギュラー回</span>
+            <span class="atag">フォロリポ分析</span>
+            <span class="atag">コメント内容テキスト分析</span>
+            <span class="atag">お悩み訴求チェック</span>
+          </div>
+        </div>
+
+        <div style="background: var(--card); border: 1px solid var(--border); border-left: 3px solid #14b8a6; border-radius: 12px; padding: 16px;">
+          <div style="font-size: 12px; font-weight: 700; color: #5eead4; margin-bottom: 10px;">📌 新メニュー / キャンペーン分析</div>
+          <div class="analysis-tags">
+            <span class="atag">Xフォロリポ×アーカイブ効果</span>
+            <span class="atag">KATE好事例の分析</span>
+            <span class="atag">キャンペーン有無の洗い出し</span>
+            <span class="atag">月5回受注の方程式</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.2); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--text3);">
+        💬 <strong style="color: var(--text);">実際のやり取り例：</strong>「A2の競合比較、なぜ視聴者数が低いか原因を3つに絞って言語化して、根拠データをCSVから引っ張って」<br>
+        → Claude Codeがデータを読み込み、分析結果を即座に構造化されたMarkdownで返す
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 4 ── -->
+  <div class="phase" style="--phase-color: #14b8a6; --phase-rgb: 20,184,166;">
+    <div class="phase-left">
+      <div class="phase-badge">✍️</div>
+      <div class="phase-num">Phase 4</div>
+    </div>
+    <div class="phase-right">
+      <div class="phase-title">統合版ドキュメントを生成・精査</div>
+      <div class="phase-desc">
+        各アジェンダの分析結果・骨子・数値・メッセージを1つのHTMLドキュメント（統合版）に集約。<br>
+        スライドに落とす前の「完成原稿」として社内でレビュー・フィードバックを行う。
+      </div>
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; gap: 16px; align-items: flex-start;">
+        <div style="font-size: 36px;">📄</div>
+        <div>
+          <div style="font-size: 15px; font-weight: 700; margin-bottom: 6px;">提案に向けた情報まとめ_統合版.html</div>
+          <div style="font-size: 13px; color: var(--text3); line-height: 1.7;">
+            分析結果・KPI設計・戦略骨子・メーカー実績・競合データを<br>
+            アジェンダ順に1ファイルにまとめたHTMLドキュメント。<br>
+            フィードバック→修正→再生成を短サイクルで回す。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 5 ── -->
+  <div class="phase" style="--phase-color: #f59e0b; --phase-rgb: 245,158,11;">
+    <div class="phase-left">
+      <div class="phase-badge">🚀</div>
+      <div class="phase-num">Phase 5</div>
+    </div>
+    <div class="phase-right">
+      <div class="phase-title">GAS でGoogleスライドに自動出力</div>
+      <div class="phase-desc">
+        Claude Codeが生成したGoogle Apps Script（GAS）コードを実行し、<br>
+        統合版ドキュメントの内容を構造化されたGoogleスライドに自動変換・整形する。
+      </div>
+      <div class="output-block">
+        <div class="output-icon">⚡</div>
+        <div>
+          <div class="output-title">GAS 自動スライド生成</div>
+          <div class="output-desc">
+            アジェンダ構成・データ・グラフ・デザインルールをコードに落とし込み、<br>
+            ワンクリックでGoogleスライドへ展開。手作業のコピペ・整形をゼロにする。
+          </div>
+          <div class="output-steps">
+            <div class="ostep">📝 原稿テキスト → スライド本文に自動配置</div>
+            <div class="ostep">📊 数値データ → グラフに自動変換</div>
+            <div class="ostep">🎨 レイアウト・フォント → 一括適用</div>
+            <div class="ostep">📑 アジェンダ構成 → セクション分割</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ HIGHLIGHTS ═══ -->
+<div class="highlight-row">
+  <div class="hl">
+    <span class="hl-num">14+</span>
+    <span class="hl-label">Claude Codeが生成した分析レポート数</span>
+  </div>
+  <div class="hl">
+    <span class="hl-num">60分→</span>
+    <span class="hl-label">従来の手作業分析を壁打ちで大幅短縮</span>
+  </div>
+  <div class="hl">
+    <span class="hl-num">0コード</span>
+    <span class="hl-label">自分でコードを書かずにGASを生成</span>
+  </div>
+</div>
+
+<!-- ═══ SUMMARY ═══ -->
+<div class="summary">
+  <div class="summary-box">
+    <div class="summary-left">
+      <h2>AIが<em>「考える相棒」</em>として<br>資料制作に参加する</h2>
+      <p>
+        従来の「資料を作る」作業は、<br>データを探す・数字を拾う・文章を書く・スライドを整える…<br>
+        すべてが人間の時間を消費していた。<br><br>
+        Claude Codeを使うことで、<strong style="color:var(--text);">「何を伝えるか」の判断</strong>だけに集中し、<br>
+        それ以外のすべてをAIに任せられる体制ができた。
+      </p>
+    </div>
+    <div class="summary-right">
+      <div class="sr-row">
+        <div class="sr-icon">📂</div>
+        <div class="sr-text"><strong>素材格納</strong> → AIが全データを記憶・参照</div>
+      </div>
+      <div class="sr-row">
+        <div class="sr-icon">🧠</div>
+        <div class="sr-text"><strong>骨子読込</strong> → 構成と論点を即座に把握</div>
+      </div>
+      <div class="sr-row">
+        <div class="sr-icon">🔍</div>
+        <div class="sr-text"><strong>深掘り分析</strong> → データから示唆を自動抽出</div>
+      </div>
+      <div class="sr-row">
+        <div class="sr-icon">✍️</div>
+        <div class="sr-text"><strong>原稿生成</strong> → 統合ドキュメントに自動集約</div>
+      </div>
+      <div class="sr-row">
+        <div class="sr-icon">⚡</div>
+        <div class="sr-text"><strong>GAS出力</strong> → Googleスライドに自動変換</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Claude Code（claude-sonnet-4-6）で作成 &nbsp;·&nbsp; MCCM年次報告会 制作プロセス &nbsp;·&nbsp; 2026年4月
+</footer>
+
+</body>
+</html>
