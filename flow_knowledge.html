@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ナレッジ化・ドキュメント整備フロー | Claude Cowork活用</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <meta name="description" content="Claude Coworkのナレッジ化・ドキュメント整備フロー">
+  <meta property="og:title" content="ナレッジ化・ドキュメント整備フロー | Claude Cowork活用">
+  <meta property="og:description" content="Claude Coworkのナレッジ化・ドキュメント整備フロー">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://riderkarubo.github.io/firework-q2-offsite/flow_knowledge.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ナレッジ化・ドキュメント整備フロー | Claude Cowork活用">
+  <meta name="twitter:description" content="Claude Coworkのナレッジ化・ドキュメント整備フロー">
+  <style>
+    :root{--bg:#0a0e1a;--bg2:#111827;--card:#1a2235;--border:#2a3a55;--accent:#e11d48;--text:#e2e8f0;--text2:#94a3b8;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI','Helvetica Neue','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);}
+    .header{padding:32px 24px 24px;border-bottom:1px solid var(--border);background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(225,29,72,0.15) 0%,transparent 70%);}
+    .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text2);text-decoration:none;font-size:13px;margin-bottom:16px;}
+    .back-link:hover{color:var(--accent);}
+    .page-title{font-size:clamp(22px,4vw,38px);font-weight:800;background:linear-gradient(135deg,#fff,#fda4af,#fb7185);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+    .page-sub{color:var(--text2);font-size:14px;line-height:1.6;}
+    .container{max-width:860px;margin:0 auto;padding:48px 24px 80px;}
+    .section-title{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+    .knowledge-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-bottom:48px;}
+    .kc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;}
+    .kc-icon{font-size:28px;margin-bottom:10px;}
+    .kc-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+    .kc-desc{font-size:13px;color:var(--text2);line-height:1.6;}
+    .kc-example{margin-top:12px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:var(--text2);}
+
+    .memory-system{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:48px;}
+    .ms-title{font-size:17px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+    .ms-rows{display:flex;flex-direction:column;gap:12px;}
+    .ms-row{display:flex;gap:14px;align-items:flex-start;}
+    .ms-tag{width:80px;background:rgba(225,29,72,0.15);border:1px solid rgba(225,29,72,0.35);color:#fb7185;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;text-align:center;flex-shrink:0;}
+    .ms-body{flex:1;font-size:13px;color:var(--text2);line-height:1.6;}
+    .ms-body strong{color:var(--text);}
+
+    footer{text-align:center;padding:24px;border-top:1px solid var(--border);color:var(--text2);font-size:12px;}
+    @media print{*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}@page{size:A4;margin:10mm;}}
+  </style>
+</head>
+<body>
+<div class="header">
+  <a href="claude_code_showcase.html" class="back-link">← 活用マップに戻る</a>
+  <div class="page-title">📚 ナレッジ化・ドキュメント整備フロー</div>
+  <p class="page-sub">「毎回同じ説明をしなくていい」環境を作るClaude Coworkの使い方</p>
+</div>
+<div class="container">
+
+  <p class="section-title">ナレッジ管理の仕組み</p>
+  <div class="knowledge-cards">
+
+    <div class="kc">
+      <div class="kc-icon">📋</div>
+      <div class="kc-title">CLAUDE.md（AIへの指示書）</div>
+      <div class="kc-desc">各プロジェクトフォルダに配置するAIへの「説明書」。クライアント名の正式表記・禁止事項・作業ルールを書いておくと毎回の説明がゼロになる。</div>
+      <div class="kc-example">例：「このプロジェクトでは『マツキヨコカラ』は誤表記。必ず『マツキヨコカラ』を使う」→ 以後チェック不要</div>
+    </div>
+
+    <div class="kc">
+      <div class="kc-icon">🧠</div>
+      <div class="kc-title">メモリシステム</div>
+      <div class="kc-desc">AIが自分の好み・フィードバック・プロジェクト情報を長期記憶するファイルを自動管理。セッションをまたいでもコンテキストを引き継げる。</div>
+      <div class="kc-example">例：「前回の修正フィードバック」「よく使う表現の好み」「プロジェクトの背景」を自動保存</div>
+    </div>
+
+    <div class="kc">
+      <div class="kc-icon">🔖</div>
+      <div class="kc-title">チェックポイント・引き継ぎ</div>
+      <div class="kc-desc">/checkpoint コマンドで作業状態をスナップショット保存。翌日や別PCで「○○の続き」と言うだけで再開できる。</div>
+      <div class="kc-example">例：「今日はここまで」→「明日の続き」でも前回の文脈がそのまま引き継がれる</div>
+    </div>
+
+    <div class="kc">
+      <div class="kc-icon">⚡</div>
+      <div class="kc-title">Skill化（パターンの再利用）</div>
+      <div class="kc-desc">「一度やった作業フロー」をスラッシュコマンドとして保存。/ssd-sync・/gas-push・/reply-assist など何でも1コマンドに。</div>
+      <div class="kc-example">例：「/ssd-sync push」でローカル→SSD→GitHubへの同期が全自動実行</div>
+    </div>
+
+    <div class="kc">
+      <div class="kc-icon">📁</div>
+      <div class="kc-title">rules フォルダ（ルール集）</div>
+      <div class="kc-desc">表記ルール・コーディングスタイル・安全ルールなどを~/.claude/rules/ に集約。全プロジェクトに自動適用される。</div>
+      <div class="kc-example">例：「HTMLを作ったら必ずOGPタグを入れる」「ファイルは削除せず退避フォルダへ」</div>
+    </div>
+
+    <div class="kc">
+      <div class="kc-icon">🔄</div>
+      <div class="kc-title">session-handoff（セッション引き継ぎ）</div>
+      <div class="kc-desc">セッション終了時に「今日やったこと・未完了・次回やること」をCLAUDE.mdに自動追記。次回セッションで状況確認不要。</div>
+      <div class="kc-example">例：「今日はここまで」と言うだけでSession Handoffが自動生成・保存される</div>
+    </div>
+
+  </div>
+
+  <p class="section-title">メモリの種類と使い分け</p>
+  <div class="memory-system">
+    <div class="ms-title">🧠 AIが長期記憶する4タイプ</div>
+    <div class="ms-rows">
+      <div class="ms-row"><div class="ms-tag">user</div><div class="ms-body"><strong>ユーザー情報：</strong>自分の役職・得意分野・好み。「Issyさんは日本語ネイティブ・デザイン重視」など、毎回説明しなくて済む情報</div></div>
+      <div class="ms-row"><div class="ms-tag">feedback</div><div class="ms-body"><strong>フィードバック：</strong>「この表現はNG」「このアプローチは好き」などの修正履歴。同じミスを二度しない</div></div>
+      <div class="ms-row"><div class="ms-tag">project</div><div class="ms-body"><strong>プロジェクト情報：</strong>案件の背景・制約・締め切り。「MCCMの報告会は〇月〇日」など時系列情報を保存</div></div>
+      <div class="ms-row"><div class="ms-tag">reference</div><div class="ms-body"><strong>参照先：</strong>「バグはLinear INGEST プロジェクトで管理」「監視はGrafanaの〇〇ダッシュボード」など外部リソースの場所</div></div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <a href="claude_code_showcase.html" style="color:#e11d48;text-decoration:none;">← 活用マップに戻る</a>
+  &nbsp;·&nbsp; 最終更新：2026年5月28日 16:44
+</footer>
+</body>
+</html>

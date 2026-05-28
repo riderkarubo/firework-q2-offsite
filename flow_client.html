@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クライアント業務フロー | Claude Cowork活用</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>">
+  <meta name="description" content="クライアント案件でClaude Coworkをどう使っているか：提案書・報告会資料・GAS自動化のフロー">
+  <meta property="og:title" content="クライアント業務フロー | Claude Cowork活用">
+  <meta property="og:description" content="クライアント案件でClaude Coworkをどう使っているか">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://riderkarubo.github.io/firework-q2-offsite/flow_client.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="クライアント業務フロー | Claude Cowork活用">
+  <meta name="twitter:description" content="クライアント案件でClaude Coworkをどう使っているか">
+  <style>
+    :root { --bg:#0a0e1a;--bg2:#111827;--card:#1a2235;--border:#2a3a55;--accent:#4f8ef7;--accent2:#7c3aed;--text:#e2e8f0;--text2:#94a3b8;--col:#4f8ef7; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI','Helvetica Neue','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);}
+    .header{padding:32px 24px 24px;border-bottom:1px solid var(--border);background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(79,142,247,0.15) 0%,transparent 70%);}
+    .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text2);text-decoration:none;font-size:13px;margin-bottom:16px;}
+    .back-link:hover{color:var(--accent);}
+    .page-title{font-size:clamp(22px,4vw,38px);font-weight:800;background:linear-gradient(135deg,#fff,#93c5fd,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+    .page-sub{color:var(--text2);font-size:14px;line-height:1.6;}
+    .container{max-width:860px;margin:0 auto;padding:48px 24px 80px;}
+    .section-title{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+    /* CASE CARDS */
+    .case-cards{display:flex;flex-direction:column;gap:24px;margin-bottom:56px;}
+    .case-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--col);border-radius:12px;padding:24px;}
+    .case-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col);margin-bottom:8px;}
+    .case-title{font-size:18px;font-weight:800;margin-bottom:10px;}
+    .case-desc{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:16px;}
+    .flow-steps{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+    .fs{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;}
+    .fa{color:var(--col);font-size:14px;padding:0 2px;}
+    .case-result{margin-top:14px;padding:12px 16px;background:rgba(79,142,247,0.07);border-radius:8px;font-size:13px;color:var(--text2);}
+    .case-result strong{color:#93c5fd;}
+
+    /* INPUT EXAMPLE */
+    .input-box{background:var(--bg2);border-left:3px solid var(--col);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:14px;font-size:13px;}
+    .input-label{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--col);margin-bottom:6px;}
+    .input-text{color:var(--text);font-style:italic;line-height:1.6;}
+
+    footer{text-align:center;padding:24px;border-top:1px solid var(--border);color:var(--text2);font-size:12px;}
+    @media print{*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}@page{size:A4;margin:10mm;}}
+  </style>
+</head>
+<body>
+<div class="header">
+  <a href="claude_code_showcase.html" class="back-link">← 活用マップに戻る</a>
+  <div class="page-title">🏢 クライアント業務の効率化フロー</div>
+  <p class="page-sub">MCCM・ロレアル・Asics・Samsung など案件ごとのClaude Cowork活用パターン</p>
+</div>
+<div class="container">
+
+  <p class="section-title">具体的な活用ケース</p>
+  <div class="case-cards">
+
+    <div class="case-card">
+      <div class="case-tag">MCCM — 年次報告会</div>
+      <div class="case-title">📊 年次報告会の提案資料をAIと共同制作</div>
+      <div class="case-desc">毎年の報告会資料制作を、構成設計からHTML化まで全工程Claude Coworkと共同作業。データを貼ると分析コメントも自動生成。</div>
+      <div class="flow-steps">
+        <div class="fs">①データ・方針をチャットで共有</div><div class="fa">→</div>
+        <div class="fs">②章立て・構成案をAIが提案</div><div class="fa">→</div>
+        <div class="fs">③HTML資料を自動生成</div><div class="fa">→</div>
+        <div class="fs">④品質ゲート（自己レビュー）</div><div class="fa">→</div>
+        <div class="fs">⑤GitHub Pagesで即公開</div>
+      </div>
+      <div class="input-box">
+        <div class="input-label">Claude Coworkへの指示例</div>
+        <div class="input-text">「MCCM年次報告会資料を作りたい。視聴者KPIはXX万人、リピーター率は前年比+5pt。強みは〇〇、課題は〇〇。エグゼサマリ→KPI→施策→提案の構成でHTMLにして」</div>
+      </div>
+      <div class="case-result"><strong>成果：</strong>資料制作時間が従来比1/3に短縮。修正も「ここをこう直して」で即反映。</div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-tag">ロレアル — 見積もり</div>
+      <div class="case-title">💰 見積もりスプレッドシートを松竹梅GASで自動生成</div>
+      <div class="case-desc">単価・数量・プランを変えるだけで全計算が自動更新されるGASを構築。clasp連携でClaude Coworkから直接pushできる体制に。</div>
+      <div class="flow-steps">
+        <div class="fs">①プラン構成・単価をチャットで指定</div><div class="fa">→</div>
+        <div class="fs">②GASコードを自動生成</div><div class="fa">→</div>
+        <div class="fs">③clasp pushで即反映</div><div class="fa">→</div>
+        <div class="fs">④微修正もチャットで即対応</div>
+      </div>
+      <div class="input-box">
+        <div class="input-label">Claude Coworkへの指示例</div>
+        <div class="input-text">「ロレアル向けライブ配信見積もりGASを修正して。梅プランに追加項目「コメントモデレーション ¥50,000」を加えて、合計行と消費税行も自動更新」</div>
+      </div>
+      <div class="case-result"><strong>成果：</strong>修正20回以上をコピペなし・clasp push のみで対応。手貼りミスゼロ。</div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-tag">Asics / マンチェス — 提案書</div>
+      <div class="case-title">📄 ライブ配信提案書・ピッチデックをHTMLで高速制作</div>
+      <div class="case-desc">パワポを一から作る代わりに、HTMLで提案書を作成。OGPタグ・印刷対応・SSO保護まで品質ルール付きで自動適用。</div>
+      <div class="flow-steps">
+        <div class="fs">①提案の方針・数値をチャットで共有</div><div class="fa">→</div>
+        <div class="fs">②HTML提案書を自動生成</div><div class="fa">→</div>
+        <div class="fs">③品質ゲート（OGP/印刷/SSO）</div><div class="fa">→</div>
+        <div class="fs">④GitHub Pagesで共有URL発行</div>
+      </div>
+      <div class="input-box">
+        <div class="input-label">Claude Coworkへの指示例</div>
+        <div class="input-text">「Asics向けライブ配信提案書HTMLを作って。競合比較・ROI試算・実施スケジュールの3章構成。Fireworkテンプレートに合わせたデザインで」</div>
+      </div>
+      <div class="case-result"><strong>成果：</strong>提案書制作が1〜2日→2〜3時間に。URLを共有するだけでクライアントがどこからでも見られる。</div>
+    </div>
+
+  </div>
+
+  <p class="section-title">クライアント業務で使う主なClaude Cowork機能</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:32px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="font-size:22px;margin-bottom:8px;">📝</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;">HTML自動生成</div>
+      <div style="font-size:12px;color:var(--text2);">提案書・報告書・レポートをコードゼロで制作</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="font-size:22px;margin-bottom:8px;">⚡</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;">GAS自動生成</div>
+      <div style="font-size:12px;color:var(--text2);">スプレッドシート・スライドの定型作業を自動化</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="font-size:22px;margin-bottom:8px;">📋</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;">品質ルール自動適用</div>
+      <div style="font-size:12px;color:var(--text2);">表記統一・OGP・印刷対応を毎回チェック</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="font-size:22px;margin-bottom:8px;">🔌</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;">GitHub Pages連携</div>
+      <div style="font-size:12px;color:var(--text2);">完成したらURLを発行してクライアントに即共有</div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <a href="claude_code_showcase.html" style="color:var(--accent);text-decoration:none;">← 活用マップに戻る</a>
+  &nbsp;·&nbsp; 最終更新：2026年5月28日 16:44
+</footer>
+</body>
+</html>

@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>私のClaude Code活用マップ</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
-  <meta name="description" content="Claude Codeで実現している仕事・業務効率化・自動化の全体像">
-  <meta property="og:title" content="私のClaude Code活用マップ">
-  <meta property="og:description" content="Claude Codeで実現している仕事・業務効率化・自動化の全体像">
+  <title>Claude Cowork活用マップ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+  <meta name="description" content="Claude Coworkで実現している仕事・業務効率化・自動化の全体像">
+  <meta property="og:title" content="Claude Cowork活用マップ">
+  <meta property="og:description" content="Claude Coworkで実現している仕事・業務効率化・自動化の全体像">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://riderkarubo.github.io/firework-q2-offsite/claude_code_showcase.html">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="私のClaude Code活用マップ">
-  <meta name="twitter:description" content="Claude Codeで実現している仕事・業務効率化・自動化の全体像">
+  <meta name="twitter:title" content="Claude Cowork活用マップ">
+  <meta name="twitter:description" content="Claude Coworkで実現している仕事・業務効率化・自動化の全体像">
   <style>
     :root {
       --bg: #0a0e1a;
@@ -24,15 +24,15 @@
       --accent3: #059669;
       --accent4: #d97706;
       --accent5: #e11d48;
+      --accent6: #0ea5e9;
       --text: #e2e8f0;
       --text2: #94a3b8;
-      --glow: rgba(79,142,247,0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+      font-family: 'Segoe UI', 'Helvetica Neue', 'Noto Sans JP', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -72,27 +72,28 @@
       margin-bottom: 16px;
     }
 
-    .hero p {
+    .hero-sub {
       color: var(--text2);
-      font-size: 16px;
-      max-width: 560px;
-      margin: 0 auto 32px;
+      font-size: 15px;
+      max-width: 600px;
+      margin: 0 auto 28px;
       line-height: 1.7;
     }
+
+    .hero-sub strong { color: #93c5fd; }
 
     .stats-row {
       display: flex;
       justify-content: center;
-      gap: 32px;
+      gap: 40px;
       flex-wrap: wrap;
+      margin-bottom: 28px;
     }
 
-    .stat {
-      text-align: center;
-    }
+    .stat { text-align: center; }
 
     .stat-num {
-      font-size: 36px;
+      font-size: 38px;
       font-weight: 800;
       background: linear-gradient(135deg, var(--accent), #818cf8);
       -webkit-background-clip: text;
@@ -107,37 +108,20 @@
       margin-top: 2px;
     }
 
-    /* ── HERO LINK BUTTON ── */
-    .hero-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 auto 32px;
-      padding: 14px 26px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 10px 30px rgba(79,142,247,0.35);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    /* ── COWORK NOTICE ── */
+    .cowork-notice {
+      max-width: 700px;
+      margin: 0 auto 8px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(79,142,247,0.08));
+      border: 1px solid rgba(124,58,237,0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
     }
 
-    .hero-link:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.08);
-      box-shadow: 0 16px 40px rgba(79,142,247,0.5);
-    }
-
-    .hero-link .arrow {
-      transition: transform 0.2s ease;
-    }
-
-    .hero-link:hover .arrow {
-      transform: translateX(4px);
-    }
+    .cowork-notice strong { color: #c4b5fd; }
 
     /* ── LAYOUT ── */
     .container {
@@ -181,6 +165,8 @@
       transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     .cat-card::before {
@@ -196,7 +182,6 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
-    /* accent colors per category */
     .cat-client::before  { background: linear-gradient(90deg, var(--accent), #818cf8); }
     .cat-client:hover    { border-color: var(--accent); box-shadow: 0 20px 40px rgba(79,142,247,0.15); }
 
@@ -212,8 +197,11 @@
     .cat-knowledge::before { background: linear-gradient(90deg, var(--accent5), #f43f5e); }
     .cat-knowledge:hover   { border-color: var(--accent5); box-shadow: 0 20px 40px rgba(225,29,72,0.15); }
 
-    .cat-ext::before    { background: linear-gradient(90deg, #0ea5e9, #38bdf8); }
-    .cat-ext:hover      { border-color: #0ea5e9; box-shadow: 0 20px 40px rgba(14,165,233,0.15); }
+    .cat-ext::before    { background: linear-gradient(90deg, var(--accent6), #38bdf8); }
+    .cat-ext:hover      { border-color: var(--accent6); box-shadow: 0 20px 40px rgba(14,165,233,0.15); }
+
+    .cat-private::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+    .cat-private:hover   { border-color: #f59e0b; box-shadow: 0 20px 40px rgba(245,158,11,0.15); }
 
     .cat-header {
       display: flex;
@@ -222,28 +210,17 @@
       margin-bottom: 18px;
     }
 
-    .cat-icon {
-      font-size: 32px;
-      line-height: 1;
-      flex-shrink: 0;
-    }
+    .cat-icon { font-size: 32px; line-height: 1; flex-shrink: 0; }
 
-    .cat-title {
-      font-size: 17px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .cat-sub {
-      font-size: 12px;
-      color: var(--text2);
-    }
+    .cat-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .cat-sub { font-size: 12px; color: var(--text2); }
 
     .item-list {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 8px;
+      flex: 1;
     }
 
     .item-list li {
@@ -256,29 +233,56 @@
     }
 
     .item-list li .dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--accent);
       flex-shrink: 0;
       margin-top: 5px;
     }
 
-    .cat-tool .dot  { background: var(--accent3); }
-    .cat-gas .dot   { background: var(--accent4); }
-    .cat-auto .dot  { background: var(--accent2); }
+    .cat-tool .dot      { background: var(--accent3); }
+    .cat-gas .dot       { background: var(--accent4); }
+    .cat-auto .dot      { background: var(--accent2); }
     .cat-knowledge .dot { background: var(--accent5); }
-    .cat-ext .dot   { background: #0ea5e9; }
+    .cat-ext .dot       { background: var(--accent6); }
+    .cat-private .dot   { background: #f59e0b; }
 
-    .item-list li strong {
-      color: var(--text);
+    .item-list li strong { color: var(--text); font-weight: 600; }
+
+    /* ── DETAIL LINK BUTTON ── */
+    .detail-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 18px;
+      padding: 9px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: var(--text2);
+      font-size: 12px;
       font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      align-self: flex-start;
     }
+
+    .detail-btn:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .cat-client .detail-btn:hover  { border-color: var(--accent); color: #93c5fd; }
+    .cat-gas .detail-btn:hover     { border-color: var(--accent4); color: #fbbf24; }
+    .cat-tool .detail-btn:hover    { border-color: var(--accent3); color: #34d399; }
+    .cat-auto .detail-btn:hover    { border-color: var(--accent2); color: #c4b5fd; }
+    .cat-knowledge .detail-btn:hover { border-color: var(--accent5); color: #fb7185; }
+    .cat-ext .detail-btn:hover     { border-color: var(--accent6); color: #38bdf8; }
+    .cat-private .detail-btn:hover { border-color: #f59e0b; color: #fde68a; }
 
     /* ── FLOW DIAGRAM ── */
-    .flow-section {
-      margin-bottom: 56px;
-    }
+    .flow-section { margin-bottom: 56px; }
 
     .flow-diagram {
       background: var(--card);
@@ -312,19 +316,32 @@
     .flow-step-label { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
     .flow-step-sub { font-size: 11px; color: var(--text2); line-height: 1.4; }
 
-    .flow-arrow {
-      font-size: 20px;
-      color: var(--accent);
-      padding: 0 8px;
-      flex-shrink: 0;
-    }
+    .flow-arrow { font-size: 20px; color: var(--accent); padding: 0 8px; flex-shrink: 0; }
 
     @media (max-width: 680px) {
       .flow-diagram { flex-direction: column; }
       .flow-arrow { transform: rotate(90deg); }
     }
 
-    /* ── HIGHLIGHT STRIP ── */
+    .flow-link-wrap { text-align: center; margin-top: 18px; }
+
+    .flow-detail-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 999px;
+      transition: filter 0.2s, transform 0.2s;
+    }
+
+    .flow-detail-link:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+    /* ── HIGHLIGHTS ── */
     .highlights {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -343,9 +360,23 @@
     }
 
     .hl-icon { font-size: 26px; flex-shrink: 0; }
-
     .hl-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
     .hl-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+    /* ── NEW BADGE ── */
+    .new-badge {
+      display: inline-block;
+      background: rgba(5,150,105,0.2);
+      border: 1px solid rgba(5,150,105,0.5);
+      color: #34d399;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 1px 7px;
+      border-radius: 10px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -356,7 +387,6 @@
       font-size: 12px;
     }
 
-    /* ── PULSE ANIMATION ── */
     @keyframes pulse-ring {
       0% { opacity: 0.6; transform: scale(1); }
       100% { opacity: 0; transform: scale(1.6); }
@@ -380,30 +410,43 @@
       background: var(--accent3);
       animation: pulse-ring 1.5s ease-out infinite;
     }
+
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      @page { size: A4; margin: 10mm; }
+    }
   </style>
 </head>
 <body>
 
 <!-- ═══════════ HERO ═══════════ -->
 <section class="hero">
-  <div class="hero-badge">Claude Code 活用マップ</div>
-  <h1>Claude Code活用術</h1>
-  <a href="mccm_process_infographic.html" class="hero-link">
-    <span>📊 MCCMプロセス インフォグラフィックを見る</span>
-    <span class="arrow">→</span>
-  </a>
+  <div class="hero-badge">Claude Cowork 活用マップ</div>
+  <h1>Claude Coworkで何ができるか</h1>
+  <p class="hero-sub">
+    <strong>Claude Cowork</strong>とは、チャットで仕事を依頼すると<strong>AIが実際に手を動かして</strong>アウトプットまで作ってくれるサービスです。<br>
+    このページは「自分がどんな仕事に使っているか」の全体マップです。
+  </p>
+  <div class="cowork-notice">
+    💡 <strong>Claude Coworkを初めて使う方へ：</strong>
+    普通のAIチャットと違い、コードを書いたり・ファイルを作ったり・複数のタスクを同時進行したりと、<strong>実際の作業ごと任せられます</strong>。各カテゴリの「フローを見る →」から具体的な使い方を確認できます。
+  </div>
   <div class="stats-row">
     <div class="stat">
-      <span class="stat-num">6+</span>
-      <span class="stat-label">クライアント</span>
+      <span class="stat-num">8+</span>
+      <span class="stat-label">クライアント案件</span>
     </div>
     <div class="stat">
-      <span class="stat-num">15+</span>
+      <span class="stat-num">20+</span>
       <span class="stat-label">自作ツール・GAS</span>
     </div>
     <div class="stat">
       <span class="stat-num">∞</span>
-      <span class="stat-label">繰り返し作業の自動化</span>
+      <span class="stat-label">定型作業の自動化</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5</span>
+      <span class="stat-label">Gitリポ新規作成（直近）</span>
     </div>
   </div>
 </section>
@@ -411,7 +454,6 @@
 <!-- ═══════════ MAIN ═══════════ -->
 <div class="container">
 
-  <!-- カテゴリカード -->
   <p class="section-title">何をやっているか</p>
   <div class="category-grid">
 
@@ -421,16 +463,17 @@
         <div class="cat-icon">🏢</div>
         <div>
           <div class="cat-title">クライアント業務の効率化</div>
-          <div class="cat-sub">MCCM / ヤマダデンキ / ロレアル / Starbucks ほか</div>
+          <div class="cat-sub">MCCM / ロレアル / Asics / Samsung / マンチェス ほか</div>
         </div>
       </div>
       <ul class="item-list">
-        <li><span class="dot"></span><div><strong>年次報告会の提案資料</strong>をAIと共同制作（MCCM）</div></li>
-        <li><span class="dot"></span><div><strong>スキルトレーニング進捗表</strong>をGASで自動生成（ヤマダデンキ）</div></li>
-        <li><span class="dot"></span><div>Pythonでスプレッドシートテンプレートを<strong>自動セットアップ</strong></div></li>
-        <li><span class="dot"></span><div>提案書・レポートのHTML化・スライド化を<strong>コード生成で量産</strong></div></li>
+        <li><span class="dot"></span><div><strong>年次報告会の提案資料</strong>をAIと共同制作・HTML化（MCCM）</div></li>
+        <li><span class="dot"></span><div><strong>見積もりスプレッドシート</strong>をGASで自動生成・松竹梅対応（ロレアル）</div></li>
+        <li><span class="dot"></span><div><strong>ライブ配信提案書・ピッチデック</strong>をHTMLで高速制作（Asics・マンチェス）</div></li>
+        <li><span class="dot"></span><div>Samsung案件の<strong>タスクリスト・進捗スプシ</strong>をGAS自動生成</div></li>
         <li><span class="dot"></span><div>ChatFAQツール・AIエージェント報告書など<strong>クライアント向けツール</strong>開発</div></li>
       </ul>
+      <a href="flow_client.html" class="detail-btn">フローを見る →</a>
     </div>
 
     <!-- GAS自動化 -->
@@ -443,12 +486,13 @@
         </div>
       </div>
       <ul class="item-list">
-        <li><span class="dot"></span><div><strong>請求書の自動作成・自動抽出</strong>（PDF→スプレッドシート）</div></li>
-        <li><span class="dot"></span><div>アンケートをGoogleフォームへ<strong>自動変換</strong></div></li>
-        <li><span class="dot"></span><div>Google SlideへPDFを<strong>一括取り込み</strong></div></li>
+        <li><span class="dot"></span><div><strong>見積もり表の自動生成</strong>（松竹梅プラン・サマリ・詳細連携）</div></li>
+        <li><span class="dot"></span><div>Google SlideへPDFを<strong>一括取り込み</strong>・整形</div></li>
         <li><span class="dot"></span><div>質問回答まとめを<strong>レイアウト付きでSlides出力</strong></div></li>
-        <li><span class="dot"></span><div>Shortcutキー一覧をスライドに<strong>自動整形</strong></div></li>
+        <li><span class="dot"></span><div><strong>カラオケレパートリー管理スプシ</strong>をclasp同期GASで構築<span class="new-badge">NEW</span></div></li>
+        <li><span class="dot"></span><div><strong>clasp連携</strong>でコピペ不要・Claude Coworkから直接push反映</div></li>
       </ul>
+      <a href="flow_gas.html" class="detail-btn">フローを見る →</a>
     </div>
 
     <!-- 自作ツール・アプリ -->
@@ -457,16 +501,17 @@
         <div class="cat-icon">🛠️</div>
         <div>
           <div class="cat-title">自作ツール・アプリ開発</div>
-          <div class="cat-sub">Claude Codeがコードを書き、自分は仕様を決める</div>
+          <div class="cat-sub">Claude Coworkがコードを書き、自分は仕様を決めるだけ</div>
         </div>
       </div>
       <ul class="item-list">
         <li><span class="dot"></span><div><strong>ライブ配信QAピックアップツール</strong>（視聴者質問を自動抽出）</div></li>
         <li><span class="dot"></span><div><strong>LS分析レポート自動化</strong>アプリ</div></li>
-        <li><span class="dot"></span><div><strong>スケジュール・タイムキープ</strong>アプリ</div></li>
-        <li><span class="dot"></span><div><strong>コメント分析レポート</strong>自動生成</div></li>
-        <li><span class="dot"></span><div>HTMLToolsで<strong>UIコンポーネント</strong>を量産</div></li>
+        <li><span class="dot"></span><div><strong>スケジュール・タイムキープ</strong>アプリ（オフサイト用）</div></li>
+        <li><span class="dot"></span><div><strong>Portfolio 2026</strong>サイトをReact＋WebPでゼロから構築</div></li>
+        <li><span class="dot"></span><div>HTMLToolsで<strong>UIコンポーネント</strong>・提案書を量産</div></li>
       </ul>
+      <a href="flow_tool.html" class="detail-btn">フローを見る →</a>
     </div>
 
     <!-- 自動化パイプライン -->
@@ -474,17 +519,18 @@
       <div class="cat-header">
         <div class="cat-icon">🤖</div>
         <div>
-          <div class="cat-title">AI秘書 & 自動化パイプライン</div>
+          <div class="cat-title">AI秘書 &amp; 自動化パイプライン</div>
           <div class="cat-sub">エージェントが仕事を回す仕組みづくり</div>
         </div>
       </div>
       <ul class="item-list">
         <li><span class="dot"></span><div><strong>AI秘書</strong>：返信・タスク管理・情報整理を自動化</div></li>
-        <li><span class="dot"></span><div><strong>reply-assist</strong>：メールやチャットの返信を半自動化</div></li>
-        <li><span class="dot"></span><div><strong>claude-sync-workspace</strong>：ワークスペースを自動同期</div></li>
-        <li><span class="dot"></span><div>カスタム<strong>Skills（スラッシュコマンド）</strong>を自作して繰り返し作業を1コマンドに</div></li>
-        <li><span class="dot"></span><div><strong>MCPサーバー</strong>でClaude Codeの能力を拡張（Studio One連携など）</div></li>
+        <li><span class="dot"></span><div><strong>reply-assist</strong>：Slack・Gmail の返信を文体ルール付きで半自動化</div></li>
+        <li><span class="dot"></span><div>5つのGitリポを<strong>GitHub Private化</strong>してSSD依存を脱却<span class="new-badge">NEW</span></div></li>
+        <li><span class="dot"></span><div>カスタム<strong>Skills（スラッシュコマンド）</strong>を自作して1コマンド化</div></li>
+        <li><span class="dot"></span><div><strong>MCPサーバー</strong>でGoogle Drive / Slack / Gmail を Claude Coworkに接続</div></li>
       </ul>
+      <a href="flow_auto.html" class="detail-btn">フローを見る →</a>
     </div>
 
     <!-- Chrome拡張 -->
@@ -500,8 +546,9 @@
         <li><span class="dot"></span><div><strong>Bulk Pin Tabs</strong>：複数タブを一括ピン留め</div></li>
         <li><span class="dot"></span><div>AI<strong>エージェント作業完了報告</strong>拡張</div></li>
         <li><span class="dot"></span><div>Google Slide上で<strong>PDF取り込み</strong>拡張</div></li>
-        <li><span class="dot"></span><div>ブラウザ上でClaude Codeが<strong>直接操作・自動化</strong></div></li>
+        <li><span class="dot"></span><div>ブラウザ上でClaude Coworkが<strong>直接操作・自動化</strong></div></li>
       </ul>
+      <a href="flow_extension.html" class="detail-btn">フローを見る →</a>
     </div>
 
     <!-- ナレッジ活用 -->
@@ -514,60 +561,84 @@
         </div>
       </div>
       <ul class="item-list">
-        <li><span class="dot"></span><div><strong>Claude Code活用指南書</strong>を社内ドキュメントとして整備</div></li>
         <li><span class="dot"></span><div>各プロジェクトに<strong>CLAUDE.md</strong>（AIへの指示書）を配置</div></li>
         <li><span class="dot"></span><div>セッション引き継ぎ・<strong>チェックポイント</strong>で文脈を跨いで継続</div></li>
         <li><span class="dot"></span><div>過去の作業パターンを<strong>Skill化</strong>して再利用</div></li>
+        <li><span class="dot"></span><div><strong>メモリシステム</strong>でAIが自分の好みや文脈を長期記憶</div></li>
+        <li><span class="dot"></span><div>3拠点（ローカル・SSD・GitHub）を<strong>自動同期</strong>で管理</div></li>
       </ul>
+      <a href="flow_knowledge.html" class="detail-btn">フローを見る →</a>
+    </div>
+
+    <!-- プライベート活用 -->
+    <div class="cat-card cat-private">
+      <div class="cat-header">
+        <div class="cat-icon">🎵</div>
+        <div>
+          <div class="cat-title">プライベート・趣味への活用</div>
+          <div class="cat-sub">仕事だけじゃない。日常もAIと一緒に</div>
+        </div>
+      </div>
+      <ul class="item-list">
+        <li><span class="dot"></span><div><strong>カラオケ変装レパートリー管理</strong>スプシをGASで構築<span class="new-badge">NEW</span></div></li>
+        <li><span class="dot"></span><div><strong>AI動画制作</strong>（Veo3プロンプト設計・映像制作ワークフロー）</div></li>
+        <li><span class="dot"></span><div><strong>Portfolio 2026</strong>サイトを完全自作（React製）</div></li>
+        <li><span class="dot"></span><div><strong>確定申告</strong>の資料整理・計算自動化</div></li>
+        <li><span class="dot"></span><div>作曲・DTMのナレッジ管理・プロジェクト整理</div></li>
+      </ul>
+      <a href="flow_private.html" class="detail-btn">フローを見る →</a>
     </div>
 
   </div>
 
   <!-- 典型的な作業フロー -->
-  <p class="section-title">典型的な作業の流れ</p>
+  <p class="section-title">Claude Coworkの典型的な使い方</p>
   <div class="flow-section">
     <div class="flow-diagram">
       <div class="flow-step">
         <div class="flow-step-icon">💬</div>
-        <div class="flow-step-label">要件を話す</div>
-        <div class="flow-step-sub">日本語で<br>何を作るか伝える</div>
+        <div class="flow-step-label">チャットで伝える</div>
+        <div class="flow-step-sub">日本語で<br>やりたいことを伝える</div>
       </div>
       <div class="flow-arrow">→</div>
       <div class="flow-step">
         <div class="flow-step-icon">🧠</div>
-        <div class="flow-step-label">AIが計画立案</div>
-        <div class="flow-step-sub">実装手順を<br>提示・確認</div>
+        <div class="flow-step-label">AIが計画を立てる</div>
+        <div class="flow-step-sub">手順・構成を<br>提示・確認</div>
       </div>
       <div class="flow-arrow">→</div>
       <div class="flow-step">
         <div class="flow-step-icon">⚙️</div>
-        <div class="flow-step-label">並列で自動実装</div>
-        <div class="flow-step-sub">複数エージェントが<br>同時に動く</div>
+        <div class="flow-step-label">AIが手を動かす</div>
+        <div class="flow-step-sub">コード・資料・<br>ファイルを自動生成</div>
       </div>
       <div class="flow-arrow">→</div>
       <div class="flow-step">
         <div class="flow-step-icon">✅</div>
-        <div class="flow-step-label">レビュー・修正</div>
+        <div class="flow-step-label">確認・修正</div>
         <div class="flow-step-sub">AIが自己レビュー<br>→差し戻しループ</div>
       </div>
       <div class="flow-arrow">→</div>
       <div class="flow-step">
         <div class="flow-step-icon">🚀</div>
-        <div class="flow-step-label">納品・運用</div>
-        <div class="flow-step-sub">Skill化して<br>次回から1コマンド</div>
+        <div class="flow-step-label">完成・運用</div>
+        <div class="flow-step-sub">次回から<br>1コマンドで再実行</div>
       </div>
+    </div>
+    <div class="flow-link-wrap">
+      <a href="flow_basic.html" class="flow-detail-link">📖 基本フローの詳細を見る →</a>
     </div>
   </div>
 
   <!-- ポイントハイライト -->
-  <p class="section-title">Claude Codeならではのポイント</p>
+  <p class="section-title">Claude Coworkならではのポイント</p>
   <div class="highlights">
 
     <div class="highlight-card">
-      <div class="hl-icon">⚡</div>
+      <div class="hl-icon">💬</div>
       <div>
-        <div class="hl-title">コードを書かずにコードを作る</div>
-        <div class="hl-desc">GAS・Python・HTML・Chrome拡張を、自分でコードを書かずに仕様だけ伝えて生成</div>
+        <div class="hl-title">日本語で話すだけでOK</div>
+        <div class="hl-desc">コードの知識ゼロでも、やりたいことを話すだけでGAS・HTML・Pythonを生成してくれる</div>
       </div>
     </div>
 
@@ -583,15 +654,15 @@
       <div class="hl-icon">🤖</div>
       <div>
         <div class="hl-title">複数AIが並列で動く</div>
-        <div class="hl-desc">ultrawork / ralph モードで複数エージェントが同時に異なるタスクを実行</div>
+        <div class="hl-desc">ultrawork / ralphモードで複数エージェントが同時に異なるタスクを実行。大規模作業も高速完了</div>
       </div>
     </div>
 
     <div class="highlight-card">
       <div class="hl-icon">📋</div>
       <div>
-        <div class="hl-title">CLAUDE.md で AI に文脈を記憶させる</div>
-        <div class="hl-desc">プロジェクトごとのルール・背景をAIに「永続記憶」させて毎回説明ゼロに</div>
+        <div class="hl-title">AIに文脈を記憶させる</div>
+        <div class="hl-desc">プロジェクトのルール・クライアント情報をAIに「永続記憶」させて毎回説明ゼロに</div>
       </div>
     </div>
 
@@ -599,15 +670,31 @@
       <div class="hl-icon">🛡️</div>
       <div>
         <div class="hl-title">AIがAIをレビューする</div>
-        <div class="hl-desc">生成エージェント → 評価エージェント のループで品質を自動担保</div>
+        <div class="hl-desc">生成エージェント → 評価エージェントのループで品質を自動担保。人間のレビュー工数を大幅削減</div>
       </div>
     </div>
 
     <div class="highlight-card">
       <div class="hl-icon">🔌</div>
       <div>
-        <div class="hl-title">MCP でどこでも繋がる</div>
-        <div class="hl-desc">Google Drive / Notion / Slack / Studio One など外部ツールをClaude Codeに接続</div>
+        <div class="hl-title">外部ツールと繋がる（MCP）</div>
+        <div class="hl-desc">Google Drive / Slack / Gmail / Calendars など外部ツールをClaude Coworkに接続して直接操作</div>
+      </div>
+    </div>
+
+    <div class="highlight-card">
+      <div class="hl-icon">📁</div>
+      <div>
+        <div class="hl-title">ファイルを直接作れる</div>
+        <div class="hl-desc">GASコード・HTMLファイル・画像変換・Gitコミットまで、ローカルPCのファイル操作ができる</div>
+      </div>
+    </div>
+
+    <div class="highlight-card">
+      <div class="hl-icon">♻️</div>
+      <div>
+        <div class="hl-title">Skill化で毎回1コマンド</div>
+        <div class="hl-desc">一度作った作業フローをスラッシュコマンドとして保存。次回から「/〇〇」と打つだけで再実行</div>
       </div>
     </div>
 
@@ -620,7 +707,7 @@
       「AIに仕事を任せる」ではなく「AIと一緒に仕事する」
     </div>
     <div style="color: var(--text2); font-size: 14px; line-height: 1.8; max-width: 560px; margin: 0 auto;">
-      Claude Codeは単なる「コード生成ツール」ではなく、<br>
+      Claude Coworkは単なる「質問答えてくれるAI」ではなく、<br>
       計画・実装・レビュー・修正・納品まで一緒に走る<strong style="color: var(--text);">AIパートナー</strong>です。<br>
       繰り返しの仕事を仕組みに変えて、価値ある仕事に集中できる環境をつくっています。
     </div>
@@ -630,7 +717,7 @@
 
 <footer>
   <span class="live-dot"></span>
-  Claude Code（claude-sonnet-4-6）で作成 &nbsp;·&nbsp; 2026年4月
+  Claude Cowork（claude-sonnet-4-6）で作成 &nbsp;·&nbsp; 最終更新：2026年5月28日 16:44
 </footer>
 
 </body>

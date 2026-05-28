@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Coworkの基本フロー</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+  <meta name="description" content="Claude Cowork初心者向け：チャットから成果物完成までの基本フロー">
+  <meta property="og:title" content="Claude Coworkの基本フロー">
+  <meta property="og:description" content="Claude Cowork初心者向け：チャットから成果物完成までの基本フロー">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://riderkarubo.github.io/firework-q2-offsite/flow_basic.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Claude Coworkの基本フロー">
+  <meta name="twitter:description" content="Claude Cowork初心者向け：チャットから成果物完成までの基本フロー">
+  <style>
+    :root {
+      --bg: #0a0e1a; --bg2: #111827; --card: #1a2235; --border: #2a3a55;
+      --accent: #4f8ef7; --accent2: #7c3aed; --text: #e2e8f0; --text2: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI','Helvetica Neue','Noto Sans JP',sans-serif; background: var(--bg); color: var(--text); }
+
+    .header {
+      padding: 32px 24px 24px;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(79,142,247,0.15) 0%, transparent 70%);
+    }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text2); text-decoration: none; font-size: 13px; margin-bottom: 16px; }
+    .back-link:hover { color: var(--accent); }
+    .page-title { font-size: clamp(22px, 4vw, 38px); font-weight: 800; background: linear-gradient(135deg, #fff, #93c5fd, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+    .page-sub { color: var(--text2); font-size: 14px; line-height: 1.6; }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    .beginner-box {
+      background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(79,142,247,0.08));
+      border: 1px solid rgba(124,58,237,0.35);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 48px;
+    }
+    .beginner-box h3 { font-size: 15px; color: #c4b5fd; margin-bottom: 8px; }
+    .beginner-box p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+    .beginner-box strong { color: var(--text); }
+
+    /* ── STEP CARDS ── */
+    .steps { display: flex; flex-direction: column; gap: 0; margin-bottom: 56px; }
+
+    .step-item {
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+
+    .step-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 27px;
+      top: 56px;
+      bottom: -1px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .step-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-right: 24px;
+      padding-top: 4px;
+      min-width: 56px;
+    }
+
+    .step-num {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: 0 0 20px rgba(79,142,247,0.3);
+    }
+
+    .step-body {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+    }
+
+    .step-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 6px;
+    }
+    .step-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+    .step-desc { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 14px; }
+
+    .step-example {
+      background: var(--bg2);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+    .step-example .label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+    .step-example .chat { color: var(--text); font-style: italic; }
+
+    .step-tips {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;
+    }
+    .tip {
+      background: rgba(79,142,247,0.1);
+      border: 1px solid rgba(79,142,247,0.25);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #93c5fd;
+    }
+
+    /* ── ADVANCED ── */
+    .advanced-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 48px; }
+    .adv-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px; transition: border-color 0.2s;
+    }
+    .adv-card:hover { border-color: var(--accent); }
+    .adv-icon { font-size: 28px; margin-bottom: 10px; }
+    .adv-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .adv-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+    footer { text-align: center; padding: 24px; border-top: 1px solid var(--border); color: var(--text2); font-size: 12px; }
+    @media print { * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } @page { size: A4; margin: 10mm; } }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <a href="claude_code_showcase.html" class="back-link">← 活用マップに戻る</a>
+  <div class="page-title">📖 Claude Coworkの基本フロー</div>
+  <p class="page-sub">「チャットで話す」→「AIが手を動かす」→「成果物が完成」の流れを解説します</p>
+</div>
+
+<div class="container">
+
+  <div class="beginner-box">
+    <h3>🙋 これを読むと何がわかる？</h3>
+    <p>Claude Coworkを初めて使う方向けに、<strong>「何を伝えればAIが動くのか」「どうやって成果物が完成するのか」</strong>を1ステップずつ説明します。普通のAIチャットとの違いは「AIが実際にファイルを作ったりコードを動かしたりできる」点です。</p>
+  </div>
+
+  <div class="steps">
+
+    <div class="step-item">
+      <div class="step-left"><div class="step-num">1</div></div>
+      <div class="step-body">
+        <div class="step-label">Step 1</div>
+        <div class="step-title">💬 チャットで「何を作りたいか」を伝える</div>
+        <div class="step-desc">専門用語や詳細な仕様は不要。「〇〇を作りたい」「〇〇を自動化したい」と普通の日本語で話しかけるだけでOK。Claude Coworkが足りない情報は質問してくれます。</div>
+        <div class="step-example">
+          <div class="label">例：こんな風に伝える</div>
+          <div class="chat">「Googleスプレッドシートで見積もり表を自動生成したい。松竹梅3プランで、各プランに単価・数量・合計が入る感じで」</div>
+        </div>
+        <div class="step-tips">
+          <span class="tip">日本語OK</span>
+          <span class="tip">詳細は後から追加できる</span>
+          <span class="tip">「なんとなく」でも動く</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-left"><div class="step-num">2</div></div>
+      <div class="step-body">
+        <div class="step-label">Step 2</div>
+        <div class="step-title">🧠 AIが計画を立てて確認する</div>
+        <div class="step-desc">Claude Coworkはすぐに作り始めず、まず「こういう手順で作ります」と計画を提示します。方向性が合っていれば「OK」と返すだけ。直してほしい点があればその場で伝えます。</div>
+        <div class="step-example">
+          <div class="label">AIがこんな計画を出す</div>
+          <div class="chat">「①シート構成の設計 → ②GASコード生成 → ③テスト実行 の順で進めます。プランA/B/C の列構成はこうします。よろしいですか？」</div>
+        </div>
+        <div class="step-tips">
+          <span class="tip">承認制で安心</span>
+          <span class="tip">軌道修正は今のうちに</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-left"><div class="step-num">3</div></div>
+      <div class="step-body">
+        <div class="step-label">Step 3</div>
+        <div class="step-title">⚙️ AIが実際に手を動かす</div>
+        <div class="step-desc">承認すると、Claude CoworkはPC上でファイルを作ったり・コードを書いたり・テストを実行したりを全自動で進めます。作業中は何をやっているか実況してくれるので見ているだけでOK。</div>
+        <div class="step-example">
+          <div class="label">AIが動いている様子</div>
+          <div class="chat">「GASコードを書きました → テスト実行 → エラーを修正 → 再テスト → 完了」（全部自動で連続実行）</div>
+        </div>
+        <div class="step-tips">
+          <span class="tip">放置でOK</span>
+          <span class="tip">複数タスクを同時実行</span>
+          <span class="tip">エラーも自動修正</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-left"><div class="step-num">4</div></div>
+      <div class="step-body">
+        <div class="step-label">Step 4</div>
+        <div class="step-title">✅ AIが自己レビューして差し戻す</div>
+        <div class="step-desc">作り終わったあと、Claude Coworkは別の視点のエージェントが「本当に正しいか」をチェックします。問題があれば自動で修正ループを回し、問題なければ報告します。</div>
+        <div class="step-example">
+          <div class="label">品質担保の仕組み</div>
+          <div class="chat">「生成エージェントが作成 → レビューエージェントが確認 → 問題箇所を差し戻し → 再生成 → 再確認」</div>
+        </div>
+        <div class="step-tips">
+          <span class="tip">人間のレビュー工数ゼロ</span>
+          <span class="tip">AIがAIをチェック</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-left"><div class="step-num">5</div></div>
+      <div class="step-body">
+        <div class="step-label">Step 5</div>
+        <div class="step-title">🚀 成果物完成・Skill化して次回1コマンドに</div>
+        <div class="step-desc">成果物が完成したら納品。さらに「次回も同じことをやりたい」場合は、作業フローを「Skill（スラッシュコマンド）」として保存できます。次回は「/〇〇」と打つだけで全工程が自動実行されます。</div>
+        <div class="step-example">
+          <div class="label">Skill化の例</div>
+          <div class="chat">「/gas-estimate」と打つだけで→「シート設計・GAS生成・テスト・push まで全自動実行」</div>
+        </div>
+        <div class="step-tips">
+          <span class="tip">2回目以降は1コマンド</span>
+          <span class="tip">チームで共有可能</span>
+          <span class="tip">カスタマイズ自由</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 応用機能 -->
+  <p style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px;">応用機能 — もっと活用するには<span style="flex:1;height:1px;background:var(--border)"></span></p>
+  <div class="advanced-grid">
+    <div class="adv-card">
+      <div class="adv-icon">🤖</div>
+      <div class="adv-title">ultrawork / ralph モード</div>
+      <div class="adv-desc">複数のAIエージェントが並列で動く大規模モード。「ulw」と打つだけで発動。大きな案件も高速完了。</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">📋</div>
+      <div class="adv-title">CLAUDE.md（記憶ファイル）</div>
+      <div class="adv-desc">プロジェクトのルール・クライアント情報・禁止事項を書いておくと、毎回説明ゼロでAIが文脈を理解する。</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">🔌</div>
+      <div class="adv-title">MCP連携</div>
+      <div class="adv-desc">Google Drive・Slack・Gmail・Calendarなど外部ツールと接続。Claude Coworkから直接ファイル読み書き・メッセージ送信ができる。</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">🔖</div>
+      <div class="adv-title">チェックポイント・引き継ぎ</div>
+      <div class="adv-desc">長いプロジェクトはセッションをまたいで継続できる。「/checkpoint」でその時点の状態を保存し、別日でも再開可能。</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="claude_code_showcase.html" style="color:var(--accent);text-decoration:none;">← 活用マップに戻る</a>
+  &nbsp;·&nbsp; 最終更新：2026年5月28日 16:44
+</footer>
+
+</body>
+</html>
